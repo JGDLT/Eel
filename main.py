@@ -135,7 +135,8 @@ while not gameover: #GAME LOOP##################################################
     
     #try to call the function here, use the new variables
     #(put the call inside an if statement, and only get new points for the circle when it's clicked on)
-    if CircleCollision(num,mousePos[0], mousePos[1],num1, s)==True:
+    if CircleCollision(num,Px, Py,num1, s)==True:
+        
         num = random.randrange(1, 800)
         num1 = random.randrange(1, 800)
         c1 = random.randrange(1, 255)
@@ -148,10 +149,8 @@ while not gameover: #GAME LOOP##################################################
     screen.blit(Back, (0,0), (0,0,1000,1000))
 
     screen.blit(fishy,(num, num1,25,25))
-    
     screen.blit(Eel, (Px, Py), (frameWidth*frameNum, RowNum*frameHeight, frameWidth, frameHeight))    
 
-    pygame.draw.rect(screen, (red), (Px,Py,25,25))
 
     pygame.display.flip()
 
