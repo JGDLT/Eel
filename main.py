@@ -143,7 +143,14 @@ while not gameover: #GAME LOOP##################################################
         c2 = random.randrange(1, 255)
         c3 = random.randrange(1, 255)
         s = random.randrange(10, 21)
-   
+    if Px < 0:
+        Px=999
+    if Px > 999:
+        Px=0
+    if Py < 0:
+        Py=999
+    if Py > 999:
+        Py=0
     #Render Section ---------------------------
     screen.fill((0,0,255))
     screen.blit(Back, (0,0), (0,0,1000,1000))
