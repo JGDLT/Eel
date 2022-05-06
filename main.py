@@ -6,8 +6,29 @@ pygame.display.set_caption("Eel")
 screen = pygame.display.set_mode((1000,1000))  
 screen.fill((0,0,0))
 red = (255,0,0)
-#Eel = pygame.image.load('eelface.png') #load your spritesheet
-#Eel.set_colorkey((255,0,255)) #this makes bright pink (255, 0, 255) transparent (sort of)
+
+
+Eel = pygame.image.load('eelface.png') #load your spritesheet
+Eel.set_colorkey((255,255,255)) #this makes bright pink (255, 0, 255) transparent (sort of)
+fishy = pygame.image.load('fishy.png')
+fishy.set_colorkey((255,255,255))
+Back = pygame.image.load('background.png')
+
+#CONSTANTS
+LEFT=0
+RIGHT=1
+UP = 2
+DOWN = 3
+Px= 200 #xpos of player
+Py= 200 #ypos of player
+vx = 0 #x velocity of player
+vy = 0 #y velocity of player
+keys = [False, False, False, False] #this list holds whether each key has been pressed
+
+frameWidth = 50
+frameHeight = 50
+RowNum = 0
+frameNum = 0
 clock = pygame.time.Clock()
 gameover = False
 
@@ -38,7 +59,30 @@ while not gameover: #GAME LOOP##################################################
 
 
 #Input Section------------------------------------------------------------
-
+    for event in pygame.event.get(): #quit game if x is pressed in top corner
+        if event.type == pygame.QUIT:
+            gameover = True
+      
+        if event.type == pygame.KEYDOWN: #keyboard input
+            if event.key == pygame.K_a:
+                keys[LEFT]=True
+            elif event.key == pygame.K_d:
+                keys[RIGHT]=True
+            elif event.key == pygame.K_w:
+                keys[UP]=True
+            elif event.key == pygame.K_s:
+                keys[DOWN]=True
+           
+        if event.type == pygame.KEYUP: #keyboard input
+            if event.key == pygame.K_a:
+                keys[LEFT]=False
+            elif event.key == pygame.K_d:
+                keys[RIGHT]=False
+            elif event.key == pygame.K_w:
+                keys[UP]=False
+            elif event.key == pygame.K_s:
+                keys[DOWN]=False
+                
     if event.type == pygame.MOUSEBUTTONDOWN:#CLICK
         mousePos = event.pos
 
@@ -51,8 +95,36 @@ while not gameover: #GAME LOOP##################################################
     if event.type == pygame.QUIT: #close game window
         break        
  
-    #physics/movement section-----------------------------------------
-   
+    #physics/movement section#LEFT MOVEMENT
+    if keys[LEFT]==True:
+        vx=-3
+        vy=0
+        direction = LEFT
+    elif keys[RIGHT]==True:
+        vx=3
+        vy=0
+        direction = RIGHT
+    
+
+        
+      #JUMPING  
+    if keys[UP]==True:
+        vy= -3
+        vx=0
+        direction = UP
+
+        
+      #DOWN
+    elif keys[DOWN]==True:
+        vy = 3
+        vx=0
+        direction = DOWN
+    
+
+    #update player position
+    Px+=vx 
+    Py+=vy
+    
     #try to call the function here, use the new variables
     #(put the call inside an if statement, and only get new points for the circle when it's clicked on)
     if CircleCollision(num,mousePos[0], mousePos[1],num1, s)==True:
@@ -65,10 +137,13 @@ while not gameover: #GAME LOOP##################################################
    
     #Render Section ---------------------------
     screen.fill((0,0,255))
-    pygame.draw.rect(screen, (c1,c2,c3),(num, num1,25,25),s)
-    pygame.draw.rect(screen, (red), (200,200,25,25))
+    screen.blit(Back, (0,0), (0,0,1000,1000))
+
+    screen.blit(fishy,(num, num1,25,25))
+    
     #screen.blit(Eel, (Px, Py), (frameWidth*frameNum, RowNum*frameHeight, frameWidth, frameHeight))    
 
+    pygame.draw.rect(screen, (red), (Px,Py,25,25))
 
     pygame.display.flip()
 
