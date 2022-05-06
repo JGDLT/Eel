@@ -2,9 +2,11 @@ import pygame
 import random
 import math
 pygame.init()  
-pygame.display.set_caption("Eel")  
-screen = pygame.display.set_mode((1000,1000))  
+pygame.display.set_caption("platformer")  # sets the window title
+screen = pygame.display.set_mode((1000, 1000))  # creates game screen
 screen.fill((0,0,0))
+clock = pygame.time.Clock() #set up clock
+gameover = False #variable to run our game loop
 red = (255,0,0)
 
 
@@ -29,8 +31,6 @@ frameWidth = 50
 frameHeight = 50
 RowNum = 0
 frameNum = 0
-clock = pygame.time.Clock()
-gameover = False
 
 def CircleCollision(x1,x2,y1,y2, radius):
     if (math.sqrt((x2 - x1)**2 + (y2- y1)**2))<radius:
@@ -55,7 +55,6 @@ while not gameover: #GAME LOOP##################################################
     clock.tick(60) #FPS
 
 #event queue (bucket that holds stuff that happens in game and passes to one of the sections below)
-    event = pygame.event.wait()    
 
 
 #Input Section------------------------------------------------------------
@@ -99,18 +98,25 @@ while not gameover: #GAME LOOP##################################################
     if keys[LEFT]==True:
         vx=-3
         vy=0
+        RowNum = 2
+        frameNum = 0
         direction = LEFT
+        
     elif keys[RIGHT]==True:
         vx=3
         vy=0
+        RowNum = 0
+        frameNum = 0
         direction = RIGHT
     
 
         
       #JUMPING  
     if keys[UP]==True:
-        vy= -3
+        vy=-3
         vx=0
+        RowNum = 1
+        frameNum = 0
         direction = UP
 
         
@@ -118,6 +124,8 @@ while not gameover: #GAME LOOP##################################################
     elif keys[DOWN]==True:
         vy = 3
         vx=0
+        RowNum = 3
+        frameNum = 0
         direction = DOWN
     
 
@@ -141,7 +149,7 @@ while not gameover: #GAME LOOP##################################################
 
     screen.blit(fishy,(num, num1,25,25))
     
-    #screen.blit(Eel, (Px, Py), (frameWidth*frameNum, RowNum*frameHeight, frameWidth, frameHeight))    
+    screen.blit(Eel, (Px, Py), (frameWidth*frameNum, RowNum*frameHeight, frameWidth, frameHeight))    
 
     pygame.draw.rect(screen, (red), (Px,Py,25,25))
 
